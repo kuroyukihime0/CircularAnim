@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="48dp"
+    android:paddingTop="32dp"
     tools:context="top.wefor.circularanimdemo.MainActivity"
     >
 
     <LinearLayout
-        android:layout_marginTop="24dp"
-        android:background="#8dfa"
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="#dfa"
         android:orientation="vertical">
 
         <Button
@@ -38,13 +38,13 @@
             android:textColor="@android:color/white"/>
 
         <Button
-            android:id="@+id/activity_finish_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@color/colorPrimary"
+            android:onClick="fullWithDrawable"
             android:padding="16dp"
-            android:text="Start Activity then finish"
+            android:text="Start Activity Drawable"
             android:textColor="@android:color/white"/>
 
         <FrameLayout
@@ -67,6 +67,27 @@
                 android:text="变变变－进度条"
                 android:textColor="@android:color/white"/>
         </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/change_btn2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="LOGIN"
+                android:textColor="@android:color/white"/>
+        </FrameLayout>
     </LinearLayout>
 
     <ImageView
@@ -75,7 +96,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginRight="16dp"
+        android:alpha="0.5"
         android:src="@mipmap/ic_launcher"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:onClick="fragmentDemo"
+        android:text="fragment demo"/>
 
 </FrameLayout>
 

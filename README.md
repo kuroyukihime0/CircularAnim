@@ -1,5 +1,6 @@
-## CircularAnim
-[![](https://jitpack.io/v/XunMengWinter/CircularAnim.svg)](https://jitpack.io/#XunMengWinter/CircularAnim)
+## CircularAnim [![](https://jitpack.io/v/XunMengWinter/CircularAnim.svg)](https://jitpack.io/#XunMengWinter/CircularAnim)
+
+[English](https://github.com/XunMengWinter/CircularAnim/blob/master/README-EN.md) | 中文
 
 首先来看一个UI动效图。
 ![动效来自Dribbble](https://d13yacurqjgara.cloudfront.net/users/62319/screenshots/1945593/shot.gif)
@@ -14,7 +15,7 @@
 ### Compile
 最新可用版本[![](https://jitpack.io/v/XunMengWinter/CircularAnim.svg)](https://jitpack.io/#XunMengWinter/CircularAnim)
 
-So,你可以如下compile该项目，不过我还是推荐直接把这个类 [CircularAnimUtil](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnimUtil.java) 拷贝到项目里去。
+So,你可以如下compile该项目，也可以直接把这个类 [CircularAnim](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnim.java) 拷贝到项目里去。
 
 add this to the the project level build.gradle file
 
@@ -30,62 +31,80 @@ allprojects {
 add the dependency to the the app level build.gradle file
 
 ```
-compile 'com.github.XunMengWinter:CircularAnim:0.1.3'
-//若果有问题请
-//compile 'com.github.XunMengWinter:CircularAnim:0.1.0'
+// replace {x.y.z} with the latest version.
+implementation 'com.github.XunMengWinter:CircularAnim:{x.y.z}'
 ```
 
 ### 使用方法
-为了使用起来简单，我将动画封装成CircularAnimUtil.
+为了使用起来简单，我将动画封装成CircularAnim.
 
 现在，让按钮收缩只需一行代码，如下：
-> CircularAnimUtil.hide(mChangeBtn);
+> CircularAnim.hide(mChangeBtn).go();
 
 
 同理，让按钮伸展开：
-> CircularAnimUtil.show(mChangeBtn);
+> CircularAnim.show(mChangeBtn).go();
 
 
 以View为水波触发点收缩其它View:
-> hideOther(View triggerView, View otherView)
+> CircularAnim.hide(mContentLayout).triggerView(mLogoBtnIv).go();
 
 
 以View为水波触发点伸展其它View:
-> showOther(View triggerView, View otherView)
+> CircularAnim.show(mContentLayout).triggerView(mLogoBtnIv).go();
 
 
-水波般铺满指定颜色并启动一个Activity:
-> CircularAnimUtil.startActivity(MainActivity.this, EmptyActivity.class, view, R.color.colorPrimary);
+水波般铺满指定颜色并启动一个Activity: 
+```
+CircularAnim.fullActivity(MainActivity.this, view)
+                        .colorOrImageRes(R.color.colorPrimary)
+                        .go(new CircularAnim.OnAnimationEndListener() {
+                            @Override
+                            public void onAnimationEnd() {
+                                startActivity(new Intent(MainActivity.this, EmptyActivity.class));
+                            }
+                        });
+```
 
 
 这里，你还可以放图片：
-> CircularAnimUtil.startActivity(MainActivity.this, EmptyActivity.class, view, R.mipmap.img_huoer_black);
+> .colorOrImageRes(R.mipmap.img_huoer_black)
 
-也许在显示或隐藏视图时，你想要设置半径和时长，你可以调用这个方法：
-> 显示：show(View myView, float startRadius, long durationMills)
-
-> 隐藏：hide(final View myView, float endRadius, long durationMills) 
-
-
-以及，你可以在startActivity时带上Intent:
-> startActivity(Activity thisActivity, Intent intent, View triggerView, int colorOrImageRes)
-
-还可以startActivityForResult:
-> startActivityForResult(Activity thisActivity, Intent intent, Integer requestCode, View triggerView, int colorOrImageRes)
-
-以及startActivity然后finish:
-> startActivityThenFinish(Activity thisActivity, Intent intent, View triggerView, int colorOrImageRes)
-
-
-同理，startActivity同样可以设置时长。
+同时，你还可以设置时长、半径、转场动画、动画结束监听器等参数。
 
 用起来非常的方便，一切逻辑性的东西都由帮助类搞定。
 
+### 版本改动
+* 0.4.0
+新增：triggerPoint() 方法，可指定水波扩散点，与triggerView()类似。
+新增：CircularAnim.initDefaultDeployAnimators() 方法，可设置默认的动画部署器。
+
+* 0.3.5
+新增：可以配置CircularAnim的Animator。
+```
+CircularAnim.hide(mChangeBtn2)
+                          .endRadius(mProgressBar2.getHeight() / 2)
+                          .deployAnimator(new CircularAnim.OnAnimatorDeployListener() {
+                              @Override
+                              public void deployAnimator(Animator animator) {
+                                  animator.setDuration(1200L);
+                                  animator.setInterpolator(new AccelerateInterpolator());
+                              }
+                          })
+                          .go();
+```
+
+
+* 0.3.4
+新增：可在Application中初始化CircularAnim的各项默认参数：动画时长，满铺颜色。
+
+> CircularAnim.init(700, 500, R.color.colorPrimary);
+
 
 ### 源码
-下面贡献源码。你可以直接新建一个[CircularAnimUtil](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnimUtil.java)的类，然后把下面的代码复制进去就OK了。
+下面贡献源码。你可以直接新建一个[CircularAnim](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnim.java)的类，然后把下面的代码复制进去就OK了。
 
-[点此查看源码](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnimUtil.java)
+[点此查看源码](https://raw.githubusercontent.com/XunMengWinter/CircularAnim/master/circularanim/src/main/java/top/wefor/circularanim/CircularAnim.java)
 
 另外，[GitHub Demo 地址在此](https://github.com/XunMengWinter/CircularAnim)，欢迎Star,欢迎喜欢，欢迎关注，哈哈哈 ^ ^ ~
 
